@@ -1,0 +1,157 @@
+:root {
+    /*--ColorSchemeBlack: rgb(38,35,34);*/
+    --colorSchemeMain: rgb(255,255,255);
+    --green: rgba(255,255,196,1);
+    --white: rgba(61,34,25,1);
+    --red: rgba(189,1,16,.8);
+    --grey: rgba(185,146,141,1);
+    --black: black;
+}
+
+*, *::after, *::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; 
+}
+
+html {
+    font-size: 62.5%; 
+    /* background-color: var(--green); */
+    color: var(--white);
+}
+
+body{
+    font-family: 'Lato', sans-serif;
+}
+
+main{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    background-image: url('x.jpg');
+    background-size: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+#backgroundPopup{
+    width: 100vw;
+    height: 0vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    backdrop-filter: blur(5px);
+    overflow: hidden;
+    transition: all .3s;
+    font-size: 3rem;
+    box-shadow: 3px 3px 1rem 2px rgba(0,0,0,0.8);
+}
+
+#popupWrapper{
+    padding: 10rem 20rem;
+    background-color: white;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#popupButton{
+    padding: 1rem 2rem;
+    cursor: pointer;
+    background-color: var(--red);
+    color: white;
+    margin-top: 10rem;
+    border-radius: 5px;
+    box-shadow: 3px 3px 1rem 2px rgba(0,0,0,0.5);
+    transition: all .2s;
+}
+
+#popupButton:hover{
+	transform: translateY(-3px);
+    box-shadow: 0 .75rem 2rem rgba(0, 0, 0, .5);
+}
+
+#popupButton:active{
+    transform: translateY(-1px);
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,0.2);
+}
+
+.title{
+    width: 100%;
+    font-size: 10rem;
+    text-align: center;
+    font-family: 'Mountains of Christmas', cursive;
+    color: rgb(189, 1, 16);
+    text-shadow: 5px 2px rgb(222,210,214);
+}
+
+.title span{
+    color: rgb(1, 188, 48);
+}
+
+.week{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.day{
+    background-color: var(--red);
+    padding: 2rem 7rem;
+    border-radius: 10px;
+    box-shadow: 3px 3px 1rem 2px rgba(0,0,0,0.5);
+}
+
+.dayTitle{
+    color: rgb(222,210,214);
+    font-size: 2rem;
+    text-align: center;
+    font-weight: bold;
+}
+
+.btn{
+    padding: .6rem 2rem;
+    font-size: 1.6rem;
+    margin-top: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: var(--green);
+    transition: all .2s;
+    box-shadow: 3px 3px 1rem 2px rgba(0,0,0,0.5);
+}
+
+.btn:hover{
+	transform: translateY(-3px);
+    box-shadow: 0 .75rem 2rem rgba(0, 0, 0, .5);
+}
+
+.btn:active{
+    transform: translateY(-1px);
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,0.2);
+}
+
+.inactive{
+    background-color: var(--grey);
+    color: var(--balck);
+    box-shadow: 0px 0px 0rem 0px rgba(0,0,0,0.5);
+}
+
+.inactive:hover{
+	transform: translateY(0px);
+    box-shadow: 0 0rem 0rem rgba(0, 0, 0, .5);
+}
+
+.inactive:active{
+    transform: translateY(0px);
+    box-shadow: 0 0rem 0rem rgba(0,0,0,0.2);
+}
