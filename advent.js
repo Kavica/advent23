@@ -238,8 +238,12 @@ const getPartNumber = (data) =>{
 }
 
 const Day_3_2 = () => {
-
+    console.log('this is a test')
 }
+
+
+
+
 
 // const formatCleanupAssignmentPairs = () =>{
 //     const formattedPairs = []
