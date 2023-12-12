@@ -162,7 +162,7 @@ const Day_2_2 = () => {
     displayAnswer(sum)
 }
 
-const inNumeric = (input) =>{
+const isNumeric = (input) =>{
     return /^\d+$/.test(input)
 }
 
@@ -184,7 +184,7 @@ const cleanUpPartsData = () =>{
 
     let convertedData = ''
     for(let i = 0; i < partsInOneLine.length; i++){
-        if(inNumeric(partsInOneLine[i])){
+        if(isNumeric(partsInOneLine[i])){
             convertedData += partsInOneLine[i]
         }else if(partsInOneLine[i] == '.'){
             convertedData += 'a'
@@ -214,14 +214,13 @@ const getPartNumber = (data) =>{
     let setOfNumbers = []
     let indicesToCheck = []
     for(let position = 0; position < data.length; position++){
-        if(inNumeric(data[position])){
+        if(isNumeric(data[position])){
             setOfNumbers.push(data[position])
             for(let number of directionIndices){
                 if(!indicesToCheck.includes(number + position)) indicesToCheck.push(number + position)
             }
         }else{
             let special = false
-            console.log(indicesToCheck)
             checkingForSpecial:
             for(let i = 0; i < indicesToCheck.length; i++){
                 if(data[indicesToCheck[i]] === 's'){
@@ -238,116 +237,156 @@ const getPartNumber = (data) =>{
 }
 
 const Day_3_2 = () => {
-    const cleanPartsData = cleanUpPartsDataRatio()
-    const asteriskSets = getAsteriskSets(cleanPartsData)
-    console.log(asteriskSets)
-    console.log(cleanPartsData)
-    console.log(directionIndicesRatio)
-    // const partNumbers = getPartNumber(cleanPartsData)
-    // displayAnswer(sumArray(partNumbers))
-
+    const organizedData = organizePartsData()
+    asterisksPositions = getAsterisksPositions(organizedData)
+    let ratios = findGears(organizedData, asterisksPositions)
+    displayAnswer(sumArray(ratios))
 }
 
-const cleanUpPartsDataRatio = () =>{
+const organizePartsData = () =>{
     const partsData = parts.split(/\r?\n/)
-    buildDirectionIndicesRatio(partsData[0].length)
-    let cleanPartsData = []
-    for(let line of partsData){
-        cleanPartsData.push(line)
+    let asteriskID = 1
+    let numberID = 1
+    const lines = []
+    for(let i = 0; i < partsData.length; i++){
+        let runningNumber = ''
+        let runningIndices = []
+        let line = []
+        for(let j = 0; j < partsData[i].length; j++){
+            if(j == partsData[i].length - 1){
+                if(isNumeric(partsData[i][j])){
+                    runningNumber += partsData[i][j]
+                    runningIndices.push(j)
+                }
+                if(runningIndices.length){
+                    for(let k = 0; k < runningIndices.length; k++){
+                        line.push({
+                            value: parseInt(runningNumber),
+                            id: numberID,
+                            row: i,
+                            col: k,
+                            type: 0
+                        })
+                    }
+                    runningIndices = []
+                    runningNumber = ''
+                    numberID++
+                }
+            }
+            else if(isNumeric(partsData[i][j])){
+                runningNumber += partsData[i][j]
+                runningIndices.push(j)
+            }else{
+                if(runningIndices.length){
+                    for(let k = 0; k < runningIndices.length; k++){
+                        line.push({
+                            value: parseInt(runningNumber),
+                            id: numberID,
+                            row: i,
+                            col: k,
+                            type: 0
+                        })
+                    }
+                    runningIndices = []
+                    runningNumber = ''
+                    numberID++
+                }
+    
+                if(partsData[i][j] == '*'){
+                    line.push({
+                        value: '*',
+                        id: asteriskID,
+                        row: i,
+                        col: j,
+                        type: 1
+                    })
+                    asteriskID++
+                }else{
+                    line.push({
+                        value: '.',
+                        type: 2
+                    })
+                }
+            }
+        }
+        lines.push(line)
     }
-    const partsInOneLine = cleanPartsData.join('')
+    return lines
+}
 
-    let convertedData = ''
-    for(let i = 0; i < partsInOneLine.length; i++){
-        if(inNumeric(partsInOneLine[i])){
-            convertedData += partsInOneLine[i]
-        }else if(partsInOneLine[i] == '*'){
-            convertedData += '*'
-        }else{
-            convertedData += 'a'
+const getAsterisksPositions = (organizedData) =>{
+    let allPositions = []
+    for(let line of organizedData){
+        let filtered = line.filter(filterByType)
+        for(let item of filtered){
+            allPositions.push(item)
         }
     }
-
-    return convertedData
+    return allPositions
 }
 
-let directionIndicesRatio = []
+const filterByType = (obj) =>{
+    if(obj.type === 1) return true
+}
 
-const buildDirectionIndicesRatio = (length) =>{
-    directionIndicesRatio.push(1)
-    directionIndicesRatio.push(2)
-    directionIndicesRatio.push(3)
-    directionIndicesRatio.push(length - 3)
-    directionIndicesRatio.push(length - 2)
-    directionIndicesRatio.push(length - 1)
-    directionIndicesRatio.push(length)
-    directionIndicesRatio.push(length + 1)
-    directionIndicesRatio.push(length + 2)
-    directionIndicesRatio.push(length + 3)
-    let negativeArray = []
-    for(let i = 0; i < directionIndicesRatio.length; i++){
-        negativeArray.push(directionIndicesRatio[i] * -1)
+const whereToCheck = [
+    {
+        row: -1,
+        col: -1
+    },
+    {
+        row: -1,
+        col: 0
+    },
+    {
+        row: -1,
+        col: 1
+    },
+    {
+        row: 0,
+        col: -1
+    },
+    {
+        row: 0,
+        col: 1
+    },
+    {
+        row: 1,
+        col: -1
+    },
+    {
+        row: 1,
+        col: 0
+    },
+    {
+        row: 1,
+        col: 1
     }
-    negativeArray = negativeArray.reverse()
-    directionIndicesRatio = negativeArray.concat(directionIndicesRatio)
-}
+]
 
-const getAsteriskSets = (data) =>{
-    const asteriskSets = []
-    for(let position = 0; position <  data.length; position++){
-        let indicesToCheck = []
-        let asterickString = ''
-        if(data[position] === '*'){
-            for(let number of directionIndicesRatio){
-                if(!indicesToCheck.includes(number + position)) indicesToCheck.push(number + position)
+const findGears = (data, positions) =>{
+    let ratios = []
+    for(let position of positions){
+        let partNumbers = []
+        let ids = []
+        for(let location of whereToCheck){
+            if(!data[position.row + location.row][position.col + location.col]) continue
+            if(data[position.row + location.row][position.col + location.col].type == 0){
+                if(!ids.includes(data[position.row + location.row][position.col + location.col].id)){
+                    ids.push(data[position.row + location.row][position.col + location.col].id)
+                    partNumbers.push(data[position.row + location.row][position.col + location.col].value)
+                }
             }
-            for(let i = 0; i < indicesToCheck.length; i++){
-                if(i == 10) asterickString += '*'
-                asterickString += data[indicesToCheck[i]]
-            }
-            // asterickString.split('').splice(10, 0, 'l').join('')
-            asteriskSets.push(asterickString)
+            
         }
+        if(partNumbers.length == 2) ratios.push(partNumbers[0] * partNumbers[1])
     }
-    return asteriskSets
+    return ratios
 }
 
-
-
-// const formatCleanupAssignmentPairs = () =>{
-//     const formattedPairs = []
-//     const pairs = cleanupAssignments.split(/\r?\n/)
-//     for(let pair of pairs){
-//         let individuals = pair.split(',')
-//         let formatted = {
-//             first: {
-//                 low: parseInt(individuals[0].split('-')[0]),
-//                 high: parseInt(individuals[0].split('-')[1])
-//             }, 
-//             second: {
-//                 low: parseInt(individuals[1].split('-')[0]),
-//                 high: parseInt(individuals[1].split('-')[1])
-//             }
-//         }
-//         formattedPairs.push(formatted)
-//     }
-//     return formattedPairs
-// }
-
-// const checkForInclusion = (pair) =>{
-//     if(pair.first.low >= pair.second.low && pair.first.high <= pair.second.high) return true
-//     if(pair.second.low >= pair.first.low && pair.second.high <= pair.first.high) return true
-//     return false
-// }
-
-// const Day_4_1 = () => {
-//     let totalInclusionCount = 0
-//     let formattedPairs = formatCleanupAssignmentPairs()
-//     for(let pair of formattedPairs){
-//         if(checkForInclusion(pair)) totalInclusionCount++
-//     }
-//     displayAnswer(totalInclusionCount)
-// }
+const Day_4_1 = () => {
+    
+}
 
 // const checkForOverlaps = (pair) =>{
 //     if(pair.first.low >= pair.second.low && pair.first.low <= pair.second.high) return true
