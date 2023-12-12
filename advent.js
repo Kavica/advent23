@@ -238,10 +238,79 @@ const getPartNumber = (data) =>{
 }
 
 const Day_3_2 = () => {
-    console.log('this is a test')
+    const cleanPartsData = cleanUpPartsDataRatio()
+    const asteriskSets = getAsteriskSets(cleanPartsData)
+    console.log(asteriskSets)
+    console.log(cleanPartsData)
+    console.log(directionIndicesRatio)
+    // const partNumbers = getPartNumber(cleanPartsData)
+    // displayAnswer(sumArray(partNumbers))
+
 }
 
+const cleanUpPartsDataRatio = () =>{
+    const partsData = parts.split(/\r?\n/)
+    buildDirectionIndicesRatio(partsData[0].length)
+    let cleanPartsData = []
+    for(let line of partsData){
+        cleanPartsData.push(line)
+    }
+    const partsInOneLine = cleanPartsData.join('')
 
+    let convertedData = ''
+    for(let i = 0; i < partsInOneLine.length; i++){
+        if(inNumeric(partsInOneLine[i])){
+            convertedData += partsInOneLine[i]
+        }else if(partsInOneLine[i] == '*'){
+            convertedData += '*'
+        }else{
+            convertedData += 'a'
+        }
+    }
+
+    return convertedData
+}
+
+let directionIndicesRatio = []
+
+const buildDirectionIndicesRatio = (length) =>{
+    directionIndicesRatio.push(1)
+    directionIndicesRatio.push(2)
+    directionIndicesRatio.push(3)
+    directionIndicesRatio.push(length - 3)
+    directionIndicesRatio.push(length - 2)
+    directionIndicesRatio.push(length - 1)
+    directionIndicesRatio.push(length)
+    directionIndicesRatio.push(length + 1)
+    directionIndicesRatio.push(length + 2)
+    directionIndicesRatio.push(length + 3)
+    let negativeArray = []
+    for(let i = 0; i < directionIndicesRatio.length; i++){
+        negativeArray.push(directionIndicesRatio[i] * -1)
+    }
+    negativeArray = negativeArray.reverse()
+    directionIndicesRatio = negativeArray.concat(directionIndicesRatio)
+}
+
+const getAsteriskSets = (data) =>{
+    const asteriskSets = []
+    for(let position = 0; position <  data.length; position++){
+        let indicesToCheck = []
+        let asterickString = ''
+        if(data[position] === '*'){
+            for(let number of directionIndicesRatio){
+                if(!indicesToCheck.includes(number + position)) indicesToCheck.push(number + position)
+            }
+            for(let i = 0; i < indicesToCheck.length; i++){
+                if(i == 10) asterickString += '*'
+                asterickString += data[indicesToCheck[i]]
+            }
+            // asterickString.split('').splice(10, 0, 'l').join('')
+            asteriskSets.push(asterickString)
+        }
+    }
+    return asteriskSets
+}
 
 
 
