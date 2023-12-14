@@ -151,8 +151,6 @@ class GameObject{
     }
 }
 
-
-
 const Day_2_2 = () => {
     let organizedData = organizeGameData()
     let sum = 0
@@ -385,9 +383,62 @@ const findGears = (data, positions) =>{
 }
 
 const Day_4_1 = () => {
-    
+    let cards = organizeCards()
+    displayAnswer(calculateScore(cards))
 }
 
+const calculateScore = (cards) =>{
+    let score = 0
+    for(let card of cards){
+        let temp = filterArray(card[0], card[1])
+        let matches = temp.length
+        let scoreChange = 0
+        switch(matches){
+            case 0:
+                break
+            case 1: 
+                scoreChange = 1
+                break
+            default:
+                scoreChange = Math.pow(2, matches - 1)
+                break
+        }
+        score += scoreChange
+    }
+    return score
+}
+
+const filterArray = (array1, array2) => {
+    const filtered = array1.filter(el => {
+        return array2.indexOf(el) !== -1
+    })
+    return filtered
+}
+
+const organizeCards = () =>{
+    let cards = gameCards.split(/\r?\n/)
+    let sides = []
+    for(let card of cards){
+        let set = card.split(':')[1].split('|')
+        sides.push(set)
+    }
+    let completedSets = []
+    for(let side of sides){
+        let temp = []
+        let mine = []
+        for(let el of side[0].trim().split(' ')){
+            if(isNumeric(el)) mine.push(parseInt(el))
+        }
+        temp.push(mine)
+        let theirs = []
+        for(let el of side[1].trim().split(' ')){
+            if(isNumeric(el)) theirs.push(parseInt(el))
+        }
+        temp.push(theirs)
+        completedSets.push(temp)
+    }
+    return completedSets
+}
 // const checkForOverlaps = (pair) =>{
 //     if(pair.first.low >= pair.second.low && pair.first.low <= pair.second.high) return true
 //     if(pair.first.high >= pair.second.low && pair.first.high <= pair.second.high) return true
