@@ -1,0 +1,35 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+														Variables Section Start
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+:root {
+    --ColorSchemePrimary: var(--Orange);
+
+    --background: var(--lightGrey);
+    --backgroundFont: var(--black);
+    --backgroundStandout: var(--white);
+    --backgroundDynamicMenu: var(--darkGrey);    
+    --backgroundDynamicMenuFont: var(--white);    
+    --headerFooter: var(--black);    
+    --headerFooterFont: var(--white);    
+
+    --white: #f5f5f7;
+    --lightGrey: #dcdfe4;
+    --darkGrey: #7d8491;
+    --black: #191919;
+    --orange: #ed6a5a;
+    --yellow: #eded5a;
+    --green: #5aeda3;
+    --lightBlue: #5ac8ed;
+    --darkBlue: #5a7eed;
+    --purple: #a35aed;
+    --pink: #ed5aa3;
+
+    --FontWeightThin: 100;
+    --FontWeightLight: 300;
+    --FontWeightRegular: 400;
+    --FontWeightMedium: 500;
+    --FontWeightBold: 700;
+}
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+														Variables Section End
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/

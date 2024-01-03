@@ -1,0 +1,51 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+														Initial Setup Section Start
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+*, *::after, *::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; 
+}
+
+.noSelect {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+html {
+    font-size: 62.5%; 
+    font-weight: var(--FontWeightLight);
+}
+
+body{
+    font-family: 'Roboto', sans-serif;
+	position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+														Initial Setup Section End
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+header{
+    width: 100vw;
+    height: 5rem;
+    background-color: var(--headerFooter);
+}
+
+main{
+    width: 100vw;
+    height: calc(100vh - 5rem);
+    display: flex;
+    background-color: var(--background);
+}
+
+#dynamicMenu{
+    width: 28rem;
+    height: 100%;
+    background-color: var(--backgroundDynamicMenu);
+}
